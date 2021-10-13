@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css"/>
+    <script defer src="scripts/script.js"></script>
+</head>
+<body>
+<header>
+    <h1>To-Do List</h1>
+</header>
+<main>
+    <section id="tasks">
+        <ul id="task-list">
+            <li>
+                <label>
+                    <input type="checkbox" value="walking" checked>
+                </label>
+                <span class="task">Walk</span>
+                <button class="delete-btn">Delete</button>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox" value="Clean" checked>
+                </label>
+                <span class="task">Clean</span>
+                <button class="delete-btn">Delete</button>
+            </li>
+
+            <li>
+                <label>
+                    <input type="checkbox" value="Learn" checked>
+                </label>
+                <span class="task">Learn</span>
+                <button class="delete-btn">Delete</button>
+            </li>
+        </ul>
+    </section>
+    <section id="new-task">
+        <header><h2>Add task</h2></header>
+        <section>
+            <input title="task name" id="input-task">
+            <button id="add-task-button">Add task</button>
+        </section>
+    </section>
+</main>
+</body>
+</html>
