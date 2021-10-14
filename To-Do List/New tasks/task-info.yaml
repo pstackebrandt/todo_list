@@ -171,6 +171,12 @@ files:
           }
       );
     learner_created: false
+  - name: src/css/style.css
+    visible: true
+    learner_created: true
+  - name: src/scripts/script.js
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/183/stages/928/implement#comment
 status: Unchecked
 record: -1
