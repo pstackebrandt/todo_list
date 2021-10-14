@@ -1,0 +1,9 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+button {
+    margin: 2vw;
+    background-color: rgba(240, 177, 80, 0.76);
+    font-size: 1.4vw;
+}
