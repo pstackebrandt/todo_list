@@ -1,0 +1,128 @@
+<h2>Conditional operators</h2>
+<html>
+<head></head>
+<body>
+<h5>Conditional operators</h5>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">Until now, we’ve only considered programs that execute commands line by line. But in real programming, they may look like a crossroad:</span>
+</p>
+<p style="text-align: center;"><img alt="" height="288" src="https://ucarecdn.com/64446bb7-41e4-4d4f-b69b-668ff8fdbde2/"
+                                    width="600"></p>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">In life, we sometimes find ourselves at a crossroads where our path forks and splits in two. This happens in programming too: programs may fork. In these cases we use </span><strong
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">conditional
+    operators.</strong></p>
+<h5 style="text-align: justify;">The "if" statement</h5>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">Often we need to make a decision based on some conditions. In programming and JavaScript particularly, this concept is realized with the help of the <code
+        class="language-javascript">if</code> statement. It’s called <strong>a conditional operator</strong>. For example, imagine you have a cat that meows when it gets hungry after 6 am. We can write a statement:</span>
+</p>
+<pre><code class="language-javascript">function meow() {
+  return "Meow!";
+}
+
+let time = 10;
+let sound;
+
+if (time &gt;= 6) {
+  sound = meow();
+  console.log(sound);
+}</code></pre>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">In the function <code
+        class="language-javascript">meow()</code> we describe what the cat does every time it is after 6 am.</span></p>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">Note that when we work with the <code
+        class="language-javascript">if</code> statement, the condition inside the parentheses is converted to a boolean. The code inside <code
+        class="language-javascript">if</code> is executed if the boolean is true. So every boolean could be a condition:</span>
+</p>
+<pre><code class="language-javascript">let condition = true;
+
+if (condition) {
+  console.log("True!");
+}</code></pre>
+<h5>The "else" block</h5>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">When the condition is false, the <code
+        class="language-javascript">else</code> block can be used instead of <code class="language-javascript">if</code>. For example:</span>
+</p>
+<pre><code class="language-javascript">function meow() {
+  return "Meow!";
+}
+
+function sleep() {
+  return "Zzzzz...";
+}
+
+let time = 5;
+let sound;
+
+if (time &gt;= 6) {
+  sound = meow();
+} else {
+  sound = sleep();
+}
+console.log(sound);</code></pre>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">Here, our cat meows when the time is later than or equal to 6 am; otherwise, it sleeps.</span>
+</p>
+<h5 style="text-align: justify;">Several conditions: "else if" block</h5>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">There are situations when we have not just two but several possible conditions. For this purpose we use the <code
+        class="language-javascript">else if</code> block:</span></p>
+<pre><code class="language-javascript">function meow() {
+  return "Meow!";
+}
+
+function sleep() {
+  return "Zzzzz...";
+}
+
+function play() {
+  return "Bang bang!";
+}
+
+let time = 9;
+let sound;
+
+if (time &lt; 6) {
+  sound = sleep();
+} else if (time &lt; 8) {
+  sound = meow();
+} else {
+  sound = play();
+}
+console.log(sound);</code></pre>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">As you can see, here we check three possible variants: the cat sleeps when time is before 6 am, meows when it’s between 6 and 8 am, and plays otherwise. We’ve defined three functions for three possible sounds the cat makes. </span>What
+    sound will be issued as a result?</p>
+<h5 style="text-align: justify;">The ternary operator "? :"</h5>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">When the aim of the program is to assign a variable depending on a condition, we can use the short version of the <code
+        class="language-javascript">if...else</code> block:<strong> </strong>the<strong> ternary operator</strong> <code
+        class="language-javascript">? :</code> . It works like this:</span></p>
+<pre><code class="language-javascript">let time = 11;
+let isHungry = (time &gt;= 6) ? true : false;</code></pre>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">In the example, you can see the condition. Then goes <code
+        class="language-javascript">?</code> and two possible values of the set variable: first, what we set when the condition is true, and after <code
+        class="language-javascript">:</code> comes whatever we set for false. A condition for visibility can be placed in brackets, but this action is not necessary. The same code, but without brackets, will be executed in the same way:</span>
+</p>
+<pre><code class="language-javascript">let time = 11;
+let isHungry = time &gt;= 6 ? true : false;</code></pre>
+<p style="text-align: justify;">The condition can be as simple as in the example above, as well as more complex. For
+    example, by using logical operators:</p>
+<pre><code class="language-javascript">let time = 11;
+let isHungry = !(time &lt;= 6) ? true : false;</code></pre>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">Let’s take a closer look at our condition. The <code
+        class="language-javascript">!</code> means “not”, so we can interpret the statement as “</span>isn't the time
+    after or equal to 6<span
+            style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">?”.</span></p>
+<h5 style="text-align: justify;">Conclusion</h5>
+<p style="text-align: justify;"><span
+        style="background-color: transparent; color: #000000; font-size: 12pt; font-variant: normal;">In this topic, we’ve considered what to do if our program should work according to some conditions. Conditional operators are an important part of programming. Remember: when we work with <code
+        class="language-javascript">if...else</code> operators or the ternary operator, the condition must be boolean.</span>
+</p>
+</body>
+</html>
