@@ -19,7 +19,7 @@
                     <input type="checkbox" value="walking" checked>
                 </label>
                 <span class="task">Walk</span>
-                <button class="delete-btn">Delete</button>
+                <button class="delete-btn" onclick="deleteTask(this);">Delete</button>
             </li>
 
             <li>
@@ -27,7 +27,7 @@
                     <input type="checkbox" value="Clean" checked>
                 </label>
                 <span class="task">Clean</span>
-                <button class="delete-btn">Delete</button>
+                <button class="delete-btn" onclick="deleteTask(this);">Delete</button>
             </li>
 
             <li>
@@ -35,7 +35,7 @@
                     <input type="checkbox" value="Learn" checked>
                 </label>
                 <span class="task">Learn</span>
-                <button class="delete-btn">Delete</button>
+                <button class="delete-btn" onclick="deleteTask(this);">Delete</button>
             </li>
         </ul>
     </section>
@@ -44,7 +44,6 @@
         <section>
             <input title="task name" id="input-task">
             <button id="add-task-button" onclick="addTask()">Add task</button>
-            <button onclick="test()">Test</button>
         </section>
     </section>
 </main>

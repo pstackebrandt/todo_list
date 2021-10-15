@@ -3,18 +3,19 @@
 //     addTask();
 // });
 
-let nextTaskNumber = 3;
-
 function addTask() {
     console.log("addTask()");
 
     // get data from #input-task
-    let taskText = document.getElementById("input-task").value;
-    console.log(`task text: ${taskText}`);
+    let inputTask = document.getElementById("input-task");
+    let taskText = inputTask.value;
+    // console.log(`task text: ${taskText}`);
 
     // create new task
     createTask(taskText);
+
     // clear content of input-task
+    inputTask.value = "";
 }
 
 // create task, add to list
@@ -24,18 +25,24 @@ function createTask(taskText) {
     // create task
     let htmlToAdd = `<li>
                         <label><input type = "checkbox" value = taskText></label>
-                        <span className="task">${taskText}</span>
-                        <button className="delete-btn">Delete</button>
+                        <span class="task">${taskText}</span>
+                        <button class="delete-btn" onclick="deleteTask(this);">Delete</button>
                     </li>`;
 
     // get list
     let list = document.getElementById("task-list");
-    list.lastElementChild.insertAdjacentHTML('afterend', htmlToAdd);
 
+    let lastChild = list.lastElementChild;
     // add task to list
-    console.log("createTask() end");
+    if (lastChild != null) {
+        lastChild.insertAdjacentHTML('afterend', htmlToAdd);
+    } else {
+        list.insertAdjacentHTML('beforeend', htmlToAdd);
+    }
+    // console.log("createTask() end");
 }
 
-function test() {
-    console.log("test()");
+function deleteTask(button) {
+    console.log("deleteTask()");
+    button.parentNode.remove();
 }
