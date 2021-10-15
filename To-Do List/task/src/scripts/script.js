@@ -26,7 +26,7 @@ function createTask(taskText) {
     let htmlToAdd = `<li>
                         <label><input type = "checkbox" value = taskText></label>
                         <span class="task">${taskText}</span>
-                        <button class="delete-btn" onclick="deleteTask(this);">Delete</button>
+                        <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
                     </li>`;
 
     // get list

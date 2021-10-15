@@ -7,3 +7,12 @@ button {
     background-color: rgba(240, 177, 80, 0.76);
     font-size: 1.4vw;
 }
+
+.delete-btn {
+    background: none;
+    outline: none;
+    cursor: pointer;
+    color: red;
+    border: none;
+    text-shadow: 3px 3px 3px rgba(255, 255, 255, 0.5);
+}
