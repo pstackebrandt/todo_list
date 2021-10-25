@@ -208,6 +208,83 @@ files:
           }
       );
     learner_created: false
+  - name: src/css/style.css
+    visible: true
+    text: |-
+      * {
+          font-family: 'Roboto', sans-serif;
+      }
+
+      button {
+          margin: 2vw;
+          background-color: rgba(240, 177, 80, 0.76);
+          font-size: 1.4vw;
+      }
+
+      .delete-btn {
+          background: none;
+          outline: none;
+          cursor: pointer;
+          color: red;
+          border: none;
+          text-shadow: 3px 3px 3px rgba(255, 255, 255, 0.5);
+      }
+    learner_created: true
+  - name: src/scripts/script.js
+    visible: true
+    text: |
+      // document.getElementById("add-task-button").addEventListener("onclick", function() {
+      //     console.log("addTask()");
+      //     addTask();
+      // });
+
+      function addTask() {
+          console.log("addTask()");
+
+          // get data from #input-task
+          let inputTask = document.getElementById("input-task");
+          let taskText = inputTask.value;
+          // console.log(`task text: ${taskText}`);
+
+          // create new task
+          createTask(taskText);
+
+          // clear content of input-task
+          inputTask.value = "";
+      }
+
+      // create task, add to list
+      function createTask(taskText) {
+          console.log("createTask()");
+
+          // create task
+          let htmlToAdd = `<li>
+                              <label><input type = "checkbox" value = taskText></label>
+                              <span class="task">${taskText}</span>
+                              <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
+                          </li>`;
+
+          // get list
+          let list = document.getElementById("task-list");
+
+          let lastChild = list.lastElementChild;
+          // add task to list
+          if (lastChild != null) {
+              lastChild.insertAdjacentHTML('afterend', htmlToAdd);
+          } else {
+              list.insertAdjacentHTML('beforeend', htmlToAdd);
+          }
+          // console.log("createTask() end");
+      }
+
+      function deleteTask(button) {
+          console.log("deleteTask()");
+          button.parentNode.remove();
+      }
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/183/stages/929/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: Mon, 25 Oct 2021 14:22:37 UTC
 record: -1

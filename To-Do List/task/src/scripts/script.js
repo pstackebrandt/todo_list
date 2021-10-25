@@ -24,7 +24,7 @@ function createTask(taskText) {
 
     // create task
     let htmlToAdd = `<li>
-                        <label><input type = "checkbox" value = taskText></label>
+                        <label><input type = "checkbox" value = taskText oninput="taskChange(this)"></label>
                         <span class="task">${taskText}</span>
                         <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
                     </li>`;
@@ -45,4 +45,23 @@ function createTask(taskText) {
 function deleteTask(button) {
     console.log("deleteTask()");
     button.parentNode.remove();
+}
+
+/* Checkbox of task was changed. Check the change.  */
+function taskChange(inputCheckbox) {
+    // console.log(`classNames: ${inputCheckbox.className}`)
+    // console.log(`span child: ${inputCheckbox.parentNode.parentNode.getElementsByTagName("span")[0]}`)
+    // console.log(`task child: ${inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0]}`)
+
+    if (inputCheckbox.checked) {
+        // add done class
+        // console.log("add done class");
+        // inputCheckbox.classList.add("done");
+        inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.add("done");
+    } else {
+        // remove done class
+        // console.log("remove done class");
+        // inputCheckbox.classList.remove("done");
+        inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.remove("done");
+    }
 }

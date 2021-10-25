@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/531589/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Fri, 15 Oct 2021 08:17:14 UTC
+update_date: Mon, 25 Oct 2021 12:19:58 UTC
 stages:
   - id: 927
     step: 13194
@@ -13,7 +13,7 @@ stages:
     is_completed: true
   - id: 929
     step: 13196
-    is_completed: false
+    is_completed: true
   - id: 930
     step: 13197
     is_completed: false
@@ -110,8 +110,10 @@ topics:
       theory_id: 10857
     - title: The "addEventListener" method
       theory_id: 8723
-    - title: Arrays
-      theory_id: 9110
+    - title: Introduction to arrays
+      theory_id: 16141
+    - title: Array creation
+      theory_id: 16356
     - title: JSON
       theory_id: 6854
     - title: Introduction to JavaScript
