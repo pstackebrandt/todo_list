@@ -28,7 +28,9 @@ function createTask(text = "no description", done = false) {
 
     // create task
     let htmlToAdd = `<li>
-                        <input type = "checkbox" oninput="taskChange(this)" ${checked}>
+                        <label>
+                            <input type = "checkbox" oninput="taskChange(this)" ${checked}>
+                        </label>
                         <span class="task">${text}</span>
                         <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
                     </li>`;

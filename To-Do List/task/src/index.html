@@ -18,7 +18,7 @@
         <ul id="task-list">
             <li>
                 <label>
-                    <input type="checkbox" value="walking" oninput="taskChange(this)">
+                    <input type="checkbox" oninput="taskChange(this)">
                 </label>
                 <span class="task">Walk</span>
                 <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
@@ -26,17 +26,9 @@
 
             <li>
                 <label>
-                    <input type="checkbox" value="Clean" oninput="taskChange(this)">
+                    <input type="checkbox" oninput="taskChange(this)" checked>
                 </label>
                 <span class="task">Clean</span>
-                <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
-            </li>
-
-            <li>
-                <label>
-                    <input type="checkbox" value="Learn" oninput="taskChange(this)">
-                </label>
-                <span class="task">Learn</span>
                 <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
             </li>
         </ul>
@@ -44,7 +36,7 @@
     <section id="new-task">
         <header><h2>Add task</h2></header>
         <section>
-            <input title="task name" id="input-task">
+            <input title="task name" value="new task" id="input-task">
             <button id="add-task-button" onclick="addTaskFromUserInput()">Add task</button>
         </section>
     </section>
