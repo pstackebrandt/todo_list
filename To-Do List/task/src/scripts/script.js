@@ -3,7 +3,7 @@
 //     addTask();
 // });
 
-function addTask() {
+function addTaskFromUserInput() {
     console.log("addTask()");
 
     // get data from #input-task
@@ -12,20 +12,24 @@ function addTask() {
     // console.log(`task text: ${taskText}`);
 
     // create new task
-    createTask(taskText);
+    createTask(taskText, false);
 
     // clear content of input-task
     inputTask.value = "";
 }
 
-// create task, add to list
-function createTask(taskText) {
+/* create task, add to page
+   text: task description, done: */
+function createTask(text = "no description", done = false) {
     console.log("createTask()");
+
+    let checked = "";
+    if (done === true) checked = "checked";
 
     // create task
     let htmlToAdd = `<li>
-                        <label><input type = "checkbox" value = taskText oninput="taskChange(this)"></label>
-                        <span class="task">${taskText}</span>
+                        <input type = "checkbox" oninput="taskChange(this)" ${checked}>
+                        <span class="task">${text}</span>
                         <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
                     </li>`;
 
@@ -64,4 +68,24 @@ function taskChange(inputCheckbox) {
         // inputCheckbox.classList.remove("done");
         inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.remove("done");
     }
+}
+
+/* Add tasks to page  */
+function addTasks() {
+    // get tasks from store
+    // loop over all tasks
+    //  add task to page
+}
+
+
+function getTasksFromStore() {
+    console.log("getTasksFromStore()");
+    let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+    return taskList;
+    console.log(`tasks from store: ${taskList}`);
+}
+
+function saveTasksToStore(tasks) {
+    console.log("saveTasksToStore()");
+    console.log(`tasks to store: ${taskList}`);
 }
