@@ -21,9 +21,14 @@ button {
     text-decoration: line-through;
 }
 
+/*li input[type=checkbox] > span {*/
+/*    text-decoration: line-through;*/
+/*}*/
 
-/*
-input[type=checkbox]:checked + span {
-    text-decoration: line-through;
-}
-*/
+/*li input[type=checkbox] + span {*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*li input[type=checkbox]:checked + span {*/
+/*    text-decoration: line-through;*/
+/*}*/

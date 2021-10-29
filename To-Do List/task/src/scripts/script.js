@@ -16,6 +16,7 @@ function addTaskFromUserInput() {
 
     // clear content of input-task
     inputTask.value = "";
+    saveAllTasks();
 }
 
 /* create task, add to page
@@ -26,15 +27,15 @@ function createTask(text = "no description", done = false) {
     let checked = "";
     if (done === true) checked = "checked";
 
-    // create task
     let htmlToAdd = `<li>
                         <label>
                             <input type = "checkbox" oninput="taskChange(this)" ${checked}>
+                            <span class="task">${text}</span>
+                            <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
                         </label>
-                        <span class="task">${text}</span>
-                        <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
                     </li>`;
 
+    // create task
     // get list
     let list = document.getElementById("task-list");
 
@@ -50,7 +51,8 @@ function createTask(text = "no description", done = false) {
 
 function deleteTask(button) {
     console.log("deleteTask()");
-    button.parentNode.remove();
+    button.parentNode.parentNode.remove();
+    saveAllTasks();
 }
 
 /* Checkbox of task was changed. Check the change.  */
@@ -63,13 +65,15 @@ function taskChange(inputCheckbox) {
         // add done class
         // console.log("add done class");
         // inputCheckbox.classList.add("done");
-        inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.add("done");
+        inputCheckbox.parentNode.getElementsByClassName("task")[0].classList.add("done");
     } else {
         // remove done class
         // console.log("remove done class");
         // inputCheckbox.classList.remove("done");
-        inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.remove("done");
+        inputCheckbox.parentNode.getElementsByClassName("task")[0].classList.remove("done");
     }
+
+    saveAllTasks();
 }
 
 /* Add tasks to page  */
@@ -79,6 +83,38 @@ function addTasks() {
     //  add task to page
 }
 
+
+function saveAllTasks() {
+    console.log("saveAllTasks()");
+    // get task list
+    let taskList = extractAllTasksFromPage("task-list");
+    console.log(`taskList: ${taskList.toString()}`);
+    // stringify task list
+
+    // store list
+    let taskListString = JSON.stringify(taskList);
+    localStorage.setItem("tasks", taskListString);
+    console.log(`taskListString: ${taskListString}`);
+}
+
+/* return: array with all task objects */
+function extractAllTasksFromPage(targetId) {  // string
+    // get task-list by Id
+    // match from <input to </span> (borders included)
+
+    // create array
+    let tasks = [];
+    let task = {description: "first task to do", done: false};
+    tasks.push(task);
+    tasks.push({description: "second task to do", done: false});
+
+    // loop over all matches
+    //   create task entry { checked = bool, description = string }
+    //   checked: bool: = check whether match contains "checked"
+    //   description: text = get text of span element
+
+    return (tasks)
+}
 
 function getTasksFromStore() {
     console.log("getTasksFromStore()");
