@@ -86,7 +86,7 @@ function addTasks() {
 function saveAllTasks() {
     console.log("saveAllTasks()");
     // get task list
-    let taskList = extractAllTasksFromPage("task-list");
+    let taskList = getAllTaskObjects("task-list");
     console.log(`taskList: ${taskList.toString()}`);
     // stringify task list
 
@@ -107,14 +107,17 @@ function getDone(labelString) {
 }
 
 /* return: array with all task objects */
-function extractAllTasksFromPage(targetId) {  // string
+function getAllTaskObjects(targetId) {  // string
     // get task-list by Id
     let taskList = document.getElementById(targetId);
     // let labelCollection = taskList.getElementsByTagName("label");
 
     // get all label entries
     let taskListString = taskList.outerHTML;
+    console.log(`task list element as string: ${taskListString}`);
 
+    let tasks = [];
+    // loop over all labels
     let labelRegEx = /<label[\s\S]*?<\/label>/mg;
     let labelResult;
     while (labelResult = labelRegEx.exec(taskListString)) {
@@ -122,29 +125,29 @@ function extractAllTasksFromPage(targetId) {  // string
 
         // extract values for new object
         let isDone = getDone(labelResult);
-        let descriptionElementString = getDescriptionElementString(labelResult[0]);
-
-        let description = getDescription(descriptionElementString);
-
         console.log(`isDone: ${isDone}`);
+
+        let descriptionElementString = getDescriptionElementString(labelResult[0]);
+        let description = getDescription(descriptionElementString);
+        let taskEntry = taskFactory(description, isDone);
+        tasks.push(taskEntry);
     }
 
-    console.log(`task list element as string: ${taskListString}`);
+    //let task = {description: "first task to do", done: false};
+    // tasks.push(task);
+    // tasks.push({description: "second task to do", done: false});
 
-    // create array
-    let tasks = [];
-    let task = {description: "first task to do", done: false};
-    tasks.push(task);
-    tasks.push({description: "second task to do", done: false});
-
-    // loop over all matches
-
-    //   create task entry { checked = bool, description = string }
-    //   checked: bool: = check whether match contains "checked"
-    //   description: text = get text of span element
-
-    return (tasks)
+    return (tasks);
 }
+
+/* description: string, done: bool */
+let taskFactory = (description, done) => {
+    return {
+        description: description,
+        done: done
+    }
+}
+
 
 /* Get the element string containing the description. */
 function getDescriptionElementString(labelString) {
