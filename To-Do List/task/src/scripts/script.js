@@ -83,7 +83,6 @@ function addTasks() {
     //  add task to page
 }
 
-
 function saveAllTasks() {
     console.log("saveAllTasks()");
     // get task list
@@ -97,10 +96,40 @@ function saveAllTasks() {
     console.log(`taskListString: ${taskListString}`);
 }
 
+/* Get task state from task label.
+   Return bool: true: task is done; false: not done  */
+function getDone(labelString) {
+    let isDone = false;
+    if (/checked/gm.test(labelString[0])) {
+        isDone = true;
+    }
+    return isDone;
+}
+
 /* return: array with all task objects */
 function extractAllTasksFromPage(targetId) {  // string
     // get task-list by Id
-    // match from <input to </span> (borders included)
+    let taskList = document.getElementById(targetId);
+    // let labelCollection = taskList.getElementsByTagName("label");
+
+    // get all label entries
+    let taskListString = taskList.outerHTML;
+
+    let labelRegEx = /<label[\s\S]*?<\/label>/mg;
+    let labelResult;
+    while (labelResult = labelRegEx.exec(taskListString)) {
+        console.log(labelResult, labelRegEx.lastIndex);
+
+        // extract values for new object
+        let isDone = getDone(labelResult);
+        let descriptionElementString = getDescriptionElementString(labelResult[0]);
+
+        let description = getDescription(descriptionElementString);
+
+        console.log(`isDone: ${isDone}`);
+    }
+
+    console.log(`task list element as string: ${taskListString}`);
 
     // create array
     let tasks = [];
@@ -109,11 +138,35 @@ function extractAllTasksFromPage(targetId) {  // string
     tasks.push({description: "second task to do", done: false});
 
     // loop over all matches
+
     //   create task entry { checked = bool, description = string }
     //   checked: bool: = check whether match contains "checked"
     //   description: text = get text of span element
 
     return (tasks)
+}
+
+/* Get the element string containing the description. */
+function getDescriptionElementString(labelString) {
+    console.log(`getDescriptionElementString(): labelString ${labelString}`);
+
+    let result = /<span[\s\S]*?<\/span>/.exec(labelString);
+    let descriptionElementString = result[0];
+
+    console.log(`getDescriptionElementString(): descriptionElementString ${descriptionElementString}`);
+
+    return descriptionElementString;
+}
+
+/* Get description from single element containing the description. */
+function getDescription(descriptionElementText) {
+    console.log(`getDescription(): descriptionElementText ${descriptionElementText}`);
+
+    let result = /(?<=>)[\s\S]*?(?=<\/)/.exec(descriptionElementText);
+    let description = result[0];
+    console.log(`getDescription(): description ${description}`);
+
+    return description;
 }
 
 function getTasksFromStore() {
