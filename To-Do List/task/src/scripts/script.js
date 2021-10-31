@@ -87,6 +87,8 @@ function saveAllTasks() {
     console.log("saveAllTasks()");
     // get task list
     let taskList = getAllTaskObjects("task-list");
+
+
     console.log(`taskList: ${taskList.toString()}`);
     // stringify task list
 
@@ -106,31 +108,29 @@ function getDone(labelString) {
     return isDone;
 }
 
-/* return: array with all task objects */
-function getAllTaskObjects(targetId) {  // string
+/* targetId: string,
+    return: array with all task objects */
+function getAllTaskObjects(targetId) {
     // get task-list by Id
     let taskList = document.getElementById(targetId);
-    // let labelCollection = taskList.getElementsByTagName("label");
 
     // get all label entries
-    let taskListString = taskList.outerHTML;
-    console.log(`task list element as string: ${taskListString}`);
+    let labelElements = taskList.getElementsByTagName("label");
+    console.log(`labelElements count: ${labelElements.length}`);
 
     let tasks = [];
+
     // loop over all labels
-    let labelRegEx = /<label[\s\S]*?<\/label>/mg;
-    let labelResult;
-    while (labelResult = labelRegEx.exec(taskListString)) {
-        console.log(labelResult, labelRegEx.lastIndex);
+    for (let i = 0; i < labelElements.length; i++) {
+        let currentLabel = labelElements[i];
 
-        // extract values for new object
-        let isDone = getDone(labelResult);
-        console.log(`isDone: ${isDone}`);
+        // extract values for task object
+        let description = currentLabel.getElementsByTagName("span")[0].innerHTML;
+        let isDone = currentLabel.getElementsByTagName("input")[0].checked;
+        // console.log(`isDone: ${isDone}`);
 
-        let descriptionElementString = getDescriptionElementString(labelResult[0]);
-        let description = getDescription(descriptionElementString);
-        let taskEntry = taskFactory(description, isDone);
-        tasks.push(taskEntry);
+        // add task
+        tasks.push(taskFactory(description, isDone));
     }
 
     //let task = {description: "first task to do", done: false};

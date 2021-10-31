@@ -1,390 +1,390 @@
 type: edu
 files:
-  - name: src/index.html
-    visible: true
-    text: |
-      <!doctype html>
-      <html lang="en">
-      <head>
-          <meta charset="UTF-8">
-          <title>Document</title>
-      </head>
-      <body>
-
-      </body>
-      </html>
-    learner_created: false
-  - name: test/test.js
-    visible: false
-    text: |
-      const puppeteer = require('puppeteer');
-      const path = require('path');
-      // '..' since we're in the test/ subdirectory; learner is supposed to have src/index.html
-      const pagePath = 'file://' + path.resolve(__dirname, '../src/index.html');
-      const hs = require('hs-test-web');
-      const sleep = (ms) => new Promise(res => setTimeout(res, ms));
-
-      async function stageTest() {
-
-          const browser = await puppeteer.launch({
-              headless: false,
-              defaultViewport: null,
-              args: ['--start-maximized', '--disable-infobar'],
-              ignoreDefaultArgs: ['--enable-automation'],
-          });
+- name: src/index.html
+  visible: true
+  text: |
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+    </head>
+    <body>
+
+    </body>
+    </html>
+  learner_created: false
+- name: test/test.js
+  visible: false
+  text: |
+    const puppeteer = require('puppeteer');
+    const path = require('path');
+    // '..' since we're in the test/ subdirectory; learner is supposed to have src/index.html
+    const pagePath = 'file://' + path.resolve(__dirname, '../src/index.html');
+    const hs = require('hs-test-web');
+    const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
+    async function stageTest() {
+
+        const browser = await puppeteer.launch({
+            headless: false,
+            defaultViewport: null,
+            args: ['--start-maximized', '--disable-infobar'],
+            ignoreDefaultArgs: ['--enable-automation'],
+        });
 
-          const page = await browser.newPage();
-          await page.coverage.startCSSCoverage();
-          await page.goto(pagePath);
+        const page = await browser.newPage();
+        await page.coverage.startCSSCoverage();
+        await page.goto(pagePath);
 
-          await sleep(1000);
-
-          let result = await hs.testPage(page,
-              // Test #1 - Check title
-              () => {
-                  if (document.title !== 'To-Do List') {
-                      return hs.wrong("The title of the page should be 'To-Do List'")
-                  }
-
-                  return hs.correct();
-              },
-
-              // Test #2 - delete all the tasks
-              async () => {
+        await sleep(1000);
+
+        let result = await hs.testPage(page,
+            // Test #1 - Check title
+            () => {
+                if (document.title !== 'To-Do List') {
+                    return hs.wrong("The title of the page should be 'To-Do List'")
+                }
+
+                return hs.correct();
+            },
+
+            // Test #2 - delete all the tasks
+            async () => {
 
-                  let taskList = document.getElementById("task-list")
+                let taskList = document.getElementById("task-list")
 
-                  if (taskList === null || taskList.tagName !== 'UL')
-                      return hs.wrong("Can't find <ul> tag with id '#task-list'")
+                if (taskList === null || taskList.tagName !== 'UL')
+                    return hs.wrong("Can't find <ul> tag with id '#task-list'")
 
-                  let tasks = taskList.getElementsByTagName("li")
-
-                  const numberOfTasks = tasks.length;
-                  let counter = 0;
+                let tasks = taskList.getElementsByTagName("li")
+
+                const numberOfTasks = tasks.length;
+                let counter = 0;
 
-                  while (true) {
+                while (true) {
 
-                      if (counter > numberOfTasks) {
-                          return hs.wrong("Looks like after deleting a task it is not removed from the task list!")
-                      }
+                    if (counter > numberOfTasks) {
+                        return hs.wrong("Looks like after deleting a task it is not removed from the task list!")
+                    }
 
-                      const deleteButton = document.querySelector("button.delete-btn")
-                      if (deleteButton === null) {
-                          break
-                      }
-                      deleteButton.click()
-
-                      counter++
-                  }
+                    const deleteButton = document.querySelector("button.delete-btn")
+                    if (deleteButton === null) {
+                        break
+                    }
+                    deleteButton.click()
+
+                    counter++
+                }
 
-                  taskList = document.getElementById("task-list")
-                  if (taskList === null || taskList.tagName !== 'UL')
-                      return hs.wrong("After deleting the tasks can't find <ul> tag with id '#task-list'")
+                taskList = document.getElementById("task-list")
+                if (taskList === null || taskList.tagName !== 'UL')
+                    return hs.wrong("After deleting the tasks can't find <ul> tag with id '#task-list'")
 
-                  tasks = taskList.getElementsByTagName("li")
+                tasks = taskList.getElementsByTagName("li")
 
-                  if (tasks.length !== 0) {
-                      return hs.wrong("After deleting all the tasks there shouldn't be any <li> tag")
-                  }
+                if (tasks.length !== 0) {
+                    return hs.wrong("After deleting all the tasks there shouldn't be any <li> tag")
+                }
 
-                  return hs.correct()
-              },
+                return hs.correct()
+            },
 
-              // Test #3 - adding tasks
-              async () => {
-                  const tasksName = ['First task', 'Second task', 'Third task', 'Fourth task', 'Fifth task']
+            // Test #3 - adding tasks
+            async () => {
+                const tasksName = ['First task', 'Second task', 'Third task', 'Fourth task', 'Fifth task']
 
-                  const inputField = document.getElementById("input-task")
-                  if (inputField === null || inputField.tagName !== 'INPUT')
-                      return hs.wrong("Can't find input field with id '#input-task'")
+                const inputField = document.getElementById("input-task")
+                if (inputField === null || inputField.tagName !== 'INPUT')
+                    return hs.wrong("Can't find input field with id '#input-task'")
 
-                  const addButton = document.getElementById("add-task-button")
-                  if (addButton === null || addButton.tagName !== 'BUTTON')
-                      return hs.wrong("Can't find button with id '#add-task-button'")
+                const addButton = document.getElementById("add-task-button")
+                if (addButton === null || addButton.tagName !== 'BUTTON')
+                    return hs.wrong("Can't find button with id '#add-task-button'")
 
-                  const taskList = document.getElementById("task-list")
-                  if (taskList === null || taskList.tagName !== 'UL')
-                      return hs.wrong("Can't find <ul> tag with id '#task-list'")
+                const taskList = document.getElementById("task-list")
+                if (taskList === null || taskList.tagName !== 'UL')
+                    return hs.wrong("Can't find <ul> tag with id '#task-list'")
 
-                  let currentTaskCounter = 1;
+                let currentTaskCounter = 1;
 
-                  for (let taskName of tasksName) {
-                      inputField.value = taskName
-                      addButton.click()
+                for (let taskName of tasksName) {
+                    inputField.value = taskName
+                    addButton.click()
 
-                      const tasks = taskList.getElementsByTagName("li")
+                    const tasks = taskList.getElementsByTagName("li")
 
-                      if (tasks.length !== currentTaskCounter) {
-                          return hs.wrong("After adding a task number of the <li> tags is not increased!")
-                      }
+                    if (tasks.length !== currentTaskCounter) {
+                        return hs.wrong("After adding a task number of the <li> tags is not increased!")
+                    }
 
-                      currentTaskCounter++
-                  }
+                    currentTaskCounter++
+                }
 
-                  return hs.correct()
-              },
+                return hs.correct()
+            },
 
-              // Test #4 - Check each task in task list
-              () => {
+            // Test #4 - Check each task in task list
+            () => {
 
-                  const taskList = document.getElementById("task-list")
-                  if (taskList.tagName !== 'UL')
-                      return hs.wrong("Can't find <ul> tag with id '#task-list'")
+                const taskList = document.getElementById("task-list")
+                if (taskList.tagName !== 'UL')
+                    return hs.wrong("Can't find <ul> tag with id '#task-list'")
 
-                  const tasks = taskList.getElementsByTagName("li")
-                  if (tasks.length !== 5)
-                      return hs.wrong("Inside the <ul> tag should be 5 <li> elements after adding 5 tasks!")
+                const tasks = taskList.getElementsByTagName("li")
+                if (tasks.length !== 5)
+                    return hs.wrong("Inside the <ul> tag should be 5 <li> elements after adding 5 tasks!")
 
-                  for (let task of tasks) {
-                      const checkbox = task.querySelector("input[type=checkbox]")
-                      if (checkbox === null)
-                          return hs.wrong("Inside each <li> tag should one <input> tag with 'checkbox' type")
+                for (let task of tasks) {
+                    const checkbox = task.querySelector("input[type=checkbox]")
+                    if (checkbox === null)
+                        return hs.wrong("Inside each <li> tag should one <input> tag with 'checkbox' type")
 
-                      const taskName = task.querySelector("span.task")
-                      if (taskName === null)
-                          return hs.wrong("Inside each <li> tag should one <spane> tag with 'task' class")
+                    const taskName = task.querySelector("span.task")
+                    if (taskName === null)
+                        return hs.wrong("Inside each <li> tag should one <spane> tag with 'task' class")
 
-                      const deleteButton = task.querySelector("button.delete-btn")
-                      if (deleteButton === null)
-                          return hs.wrong("Inside each <li> tag should one <button> tag with 'delete-btn' class")
-                  }
+                    const deleteButton = task.querySelector("button.delete-btn")
+                    if (deleteButton === null)
+                        return hs.wrong("Inside each <li> tag should one <button> tag with 'delete-btn' class")
+                }
 
 
-                  return hs.correct();
-              },
+                return hs.correct();
+            },
 
-              // Test #5 - Check completed task
-              async () => {
-                  const taskList = document.getElementById("task-list")
-                  if (taskList.tagName !== 'UL')
-                      return hs.wrong("Can't find <ul> tag with id '#task-list'")
+            // Test #5 - Check completed task
+            async () => {
+                const taskList = document.getElementById("task-list")
+                if (taskList.tagName !== 'UL')
+                    return hs.wrong("Can't find <ul> tag with id '#task-list'")
 
-                  let tasks = taskList.getElementsByTagName("li")
+                let tasks = taskList.getElementsByTagName("li")
 
-                  for (let task of tasks) {
-                      const taskName = task.querySelector("span.task")
+                for (let task of tasks) {
+                    const taskName = task.querySelector("span.task")
 
-                      if (taskName === null)
-                          return hs.wrong("Inside each <li> tag should one <spane> tag with 'task' class")
+                    if (taskName === null)
+                        return hs.wrong("Inside each <li> tag should one <spane> tag with 'task' class")
 
-                      if (taskName.textContent === 'Third task') {
-                          const checkbox = task.querySelector("input[type=checkbox]")
-                          checkbox.click()
-                          break;
-                      }
-                  }
-
-                  tasks = taskList.getElementsByTagName("li")
-
-                  for (let task of tasks) {
-
-                      const taskName = task.querySelector("span.task")
-
-                      if (taskName === null) {
-                          return hs.wrong("After marking a task as completed can not find a <span> tag with 'task' class inside <li> tag")
-                      }
-
-                      if (taskName.textContent === 'Third task') {
-                          let taskName = task.querySelector("span.task")
-                          if (taskName === null)
-                              return hs.wrong("Inside each <li> tag should be one <span> tag with 'task' class")
-
-                          if (!taskName.style.textDecoration.includes("line-through") &&
-                              !getComputedStyle(taskName).textDecoration.includes("line-through")) {
-                              return hs.wrong("If checkbox is checked the task name should be crossed out.\n" +
-                                  "The span tag with task name should have 'text-decoration: line-trough' style")
-                          }
-
-                          return hs.correct()
-                      }
-                  }
-
-                  return hs.wrong("Can't find task with name 'Third task' after it was added!")
-              }
-          );
-
-          if (result.type === 'wrong') {
-              await browser.close();
-              return result;
-          }
-
-          await page.goto(pagePath);
-
-          result = await hs.testPage(page,
-
-              // Test #6(1) - Test task list after reloading the page
-              async () => {
-
-                  const taskList = document.getElementById("task-list")
-                  if (taskList.tagName !== 'UL')
-                      return hs.wrong("Can't find <ul> tag with id '#task-list'")
-
-                  const tasks = taskList.getElementsByTagName("li")
-
-                  if (tasks.length !== 5) {
-                      return hs.wrong("Looks like you didn't store the tasks in the local storage.\n" +
-                          "After refreshing the page expected 5 tasks!")
-                  }
-
-                  for (let task of tasks) {
-                      const checkbox = task.querySelector("input[type=checkbox]")
-                      if (checkbox === null)
-                          return hs.wrong("Inside each <li> tag should one <input> tag with 'checkbox' type")
-
-                      const taskName = task.querySelector("span.task")
-                      if (taskName === null)
-                          return hs.wrong("Inside each <li> tag should one <spane> tag with 'task' class")
-
-                      const deleteButton = task.querySelector("button.delete-btn")
-                      if (deleteButton === null)
-                          return hs.wrong("Inside each <li> tag should one <button> tag with 'delete-btn' class")
-                  }
-
-                  return hs.correct()
-              }
-          );
-
-          await browser.close();
-          return result;
-      }
-
-      jest.setTimeout(30000);
-      test("Test stage", async () => {
-              let result = await stageTest();
-              if (result['type'] === 'wrong') {
-                  fail(result['message']);
-              }
-          }
-      );
-    learner_created: false
-  - name: src/css/style.css
-    visible: true
-    text: |-
-      * {
-          font-family: 'Roboto', sans-serif;
-      }
-
-      button {
-          margin: 2vw;
-          background-color: rgba(240, 177, 80, 0.76);
-          font-size: 1.4vw;
-      }
-
-      .delete-btn {
-          background: none;
-          outline: none;
-          cursor: pointer;
-          color: red;
-          border: none;
-          text-shadow: 3px 3px 3px rgba(255, 255, 255, 0.5);
-      }
-
-      .done {
-          text-decoration: line-through;
-      }
-
-
-      /*
-      input[type=checkbox]:checked + span {
-          text-decoration: line-through;
-      }
-      */
-    learner_created: true
-  - name: src/scripts/script.js
-    visible: true
-    text: |-
-      // document.getElementById("add-task-button").addEventListener("onclick", function() {
-      //     console.log("addTask()");
-      //     addTask();
-      // });
-
-      function addTaskFromUserInput() {
-          console.log("addTask()");
-
-          // get data from #input-task
-          let inputTask = document.getElementById("input-task");
-          let taskText = inputTask.value;
-          // console.log(`task text: ${taskText}`);
-
-          // create new task
-          createTask(taskText, false);
-
-          // clear content of input-task
-          inputTask.value = "";
-      }
-
-      /* create task, add to page
-         text: task description, done: */
-      function createTask(text = "no description", done = false) {
-          console.log("createTask()");
-
-          let checked = "";
-          if (done === true) checked = "checked";
-
-          // create task
-          let htmlToAdd = `<li>
-                              <input type = "checkbox" oninput="taskChange(this)" ${checked}>
-                              <span class="task">${text}</span>
-                              <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
-                          </li>`;
-
-          // get list
-          let list = document.getElementById("task-list");
-
-          let lastChild = list.lastElementChild;
-          // add task to list
-          if (lastChild != null) {
-              lastChild.insertAdjacentHTML('afterend', htmlToAdd);
-          } else {
-              list.insertAdjacentHTML('beforeend', htmlToAdd);
-          }
-          // console.log("createTask() end");
-      }
-
-      function deleteTask(button) {
-          console.log("deleteTask()");
-          button.parentNode.remove();
-      }
-
-      /* Checkbox of task was changed. Check the change.  */
-      function taskChange(inputCheckbox) {
-          // console.log(`classNames: ${inputCheckbox.className}`)
-          // console.log(`span child: ${inputCheckbox.parentNode.parentNode.getElementsByTagName("span")[0]}`)
-          // console.log(`task child: ${inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0]}`)
-
-          if (inputCheckbox.checked) {
-              // add done class
-              // console.log("add done class");
-              // inputCheckbox.classList.add("done");
-              inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.add("done");
-          } else {
-              // remove done class
-              // console.log("remove done class");
-              // inputCheckbox.classList.remove("done");
-              inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.remove("done");
-          }
-      }
-
-      /* Add tasks to page  */
-      function addTasks() {
-          // get tasks from store
-          // loop over all tasks
-          //  add task to page
-      }
-
-
-      function getTasksFromStore() {
-          console.log("getTasksFromStore()");
-          let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
-          return taskList;
-          console.log(`tasks from store: ${taskList}`);
-      }
-
-      function saveTasksToStore(tasks) {
-          console.log("saveTasksToStore()");
-          console.log(`tasks to store: ${taskList}`);
-      }
-    learner_created: true
+                    if (taskName.textContent === 'Third task') {
+                        const checkbox = task.querySelector("input[type=checkbox]")
+                        checkbox.click()
+                        break;
+                    }
+                }
+
+                tasks = taskList.getElementsByTagName("li")
+
+                for (let task of tasks) {
+
+                    const taskName = task.querySelector("span.task")
+
+                    if (taskName === null) {
+                        return hs.wrong("After marking a task as completed can not find a <span> tag with 'task' class inside <li> tag")
+                    }
+
+                    if (taskName.textContent === 'Third task') {
+                        let taskName = task.querySelector("span.task")
+                        if (taskName === null)
+                            return hs.wrong("Inside each <li> tag should be one <span> tag with 'task' class")
+
+                        if (!taskName.style.textDecoration.includes("line-through") &&
+                            !getComputedStyle(taskName).textDecoration.includes("line-through")) {
+                            return hs.wrong("If checkbox is checked the task name should be crossed out.\n" +
+                                "The span tag with task name should have 'text-decoration: line-trough' style")
+                        }
+
+                        return hs.correct()
+                    }
+                }
+
+                return hs.wrong("Can't find task with name 'Third task' after it was added!")
+            }
+        );
+
+        if (result.type === 'wrong') {
+            await browser.close();
+            return result;
+        }
+
+        await page.goto(pagePath);
+
+        result = await hs.testPage(page,
+
+            // Test #6(1) - Test task list after reloading the page
+            async () => {
+
+                const taskList = document.getElementById("task-list")
+                if (taskList.tagName !== 'UL')
+                    return hs.wrong("Can't find <ul> tag with id '#task-list'")
+
+                const tasks = taskList.getElementsByTagName("li")
+
+                if (tasks.length !== 5) {
+                    return hs.wrong("Looks like you didn't store the tasks in the local storage.\n" +
+                        "After refreshing the page expected 5 tasks!")
+                }
+
+                for (let task of tasks) {
+                    const checkbox = task.querySelector("input[type=checkbox]")
+                    if (checkbox === null)
+                        return hs.wrong("Inside each <li> tag should one <input> tag with 'checkbox' type")
+
+                    const taskName = task.querySelector("span.task")
+                    if (taskName === null)
+                        return hs.wrong("Inside each <li> tag should one <spane> tag with 'task' class")
+
+                    const deleteButton = task.querySelector("button.delete-btn")
+                    if (deleteButton === null)
+                        return hs.wrong("Inside each <li> tag should one <button> tag with 'delete-btn' class")
+                }
+
+                return hs.correct()
+            }
+        );
+
+        await browser.close();
+        return result;
+    }
+
+    jest.setTimeout(30000);
+    test("Test stage", async () => {
+            let result = await stageTest();
+            if (result['type'] === 'wrong') {
+                fail(result['message']);
+            }
+        }
+    );
+  learner_created: false
+- name: src/css/style.css
+  visible: true
+  text: |-
+    * {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    button {
+        margin: 2vw;
+        background-color: rgba(240, 177, 80, 0.76);
+        font-size: 1.4vw;
+    }
+
+    .delete-btn {
+        background: none;
+        outline: none;
+        cursor: pointer;
+        color: red;
+        border: none;
+        text-shadow: 3px 3px 3px rgba(255, 255, 255, 0.5);
+    }
+
+    .done {
+        text-decoration: line-through;
+    }
+
+
+    /*
+    input[type=checkbox]:checked + span {
+        text-decoration: line-through;
+    }
+    */
+  learner_created: true
+- name: src/scripts/script.js
+  visible: true
+  text: |-
+    // document.getElementById("add-task-button").addEventListener("onclick", function() {
+    //     console.log("addTask()");
+    //     addTask();
+    // });
+
+    function addTaskFromUserInput() {
+        console.log("addTask()");
+
+        // get data from #input-task
+        let inputTask = document.getElementById("input-task");
+        let taskText = inputTask.value;
+        // console.log(`task text: ${taskText}`);
+
+        // create new task
+        createTask(taskText, false);
+
+        // clear content of input-task
+        inputTask.value = "";
+    }
+
+    /* create task, add to page
+       text: task description, done: */
+    function createTask(text = "no description", done = false) {
+        console.log("createTask()");
+
+        let checked = "";
+        if (done === true) checked = "checked";
+
+        // create task
+        let htmlToAdd = `<li>
+                            <input type = "checkbox" oninput="taskChange(this)" ${checked}>
+                            <span class="task">${text}</span>
+                            <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
+                        </li>`;
+
+        // get list
+        let list = document.getElementById("task-list");
+
+        let lastChild = list.lastElementChild;
+        // add task to list
+        if (lastChild != null) {
+            lastChild.insertAdjacentHTML('afterend', htmlToAdd);
+        } else {
+            list.insertAdjacentHTML('beforeend', htmlToAdd);
+        }
+        // console.log("createTask() end");
+    }
+
+    function deleteTask(button) {
+        console.log("deleteTask()");
+        button.parentNode.remove();
+    }
+
+    /* Checkbox of task was changed. Check the change.  */
+    function taskChange(inputCheckbox) {
+        // console.log(`classNames: ${inputCheckbox.className}`)
+        // console.log(`span child: ${inputCheckbox.parentNode.parentNode.getElementsByTagName("span")[0]}`)
+        // console.log(`task child: ${inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0]}`)
+
+        if (inputCheckbox.checked) {
+            // add done class
+            // console.log("add done class");
+            // inputCheckbox.classList.add("done");
+            inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.add("done");
+        } else {
+            // remove done class
+            // console.log("remove done class");
+            // inputCheckbox.classList.remove("done");
+            inputCheckbox.parentNode.parentNode.getElementsByClassName("task")[0].classList.remove("done");
+        }
+    }
+
+    /* Add tasks to page  */
+    function addTasks() {
+        // get tasks from store
+        // loop over all tasks
+        //  add task to page
+    }
+
+
+    function getTasksFromStore() {
+        console.log("getTasksFromStore()");
+        let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+        return taskList;
+        console.log(`tasks from store: ${taskList}`);
+    }
+
+    function saveTasksToStore(tasks) {
+        console.log("saveTasksToStore()");
+        console.log(`tasks to store: ${taskList}`);
+    }
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/183/stages/930/implement#comment
 status: Unchecked
 record: -1
