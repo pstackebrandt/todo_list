@@ -12,16 +12,18 @@ function addTaskFromUserInput() {
     // console.log(`task text: ${taskText}`);
 
     // create new task
-    createTask(taskText, false);
+    addTaskToPage(taskText, false);
 
     // clear content of input-task
     inputTask.value = "";
     saveAllTasks();
 }
 
-/* create task, add to page
-   text: task description, done: */
-function createTask(text = "no description", done = false) {
+/* Create a task and add it to page.
+   Expects: text (string): task description, done (bool): true: task is done, false: task is to-do
+   Return: nothing
+   */
+function addTaskToPage(text = "no description", done = false) {
     console.log("createTask()");
 
     let checked = "";
@@ -77,16 +79,32 @@ function taskChange(inputCheckbox) {
 }
 
 /* Add tasks to page  */
-function addTasks() {
+function addTasksFromLocalStorageToPage() {
     // get tasks from store
+    const tasks = getTasksFromStore()
+    console.log(`tasks from store: ${tasks}`);
     // loop over all tasks
+
+    for (const i in tasks){
+        const task = tasks[i];
+        addTaskToPage(task.description, task.done)
+    }
+
     //  add task to page
 }
+
+/* Get all tasks from store.
+* Returns task objects in an array. */
+function getTasksFromStore() {
+    console.log("getTasksFromStore()");
+    return JSON.parse(localStorage.getItem("tasks")) || [];
+}
+
 
 function saveAllTasks() {
     console.log("saveAllTasks()");
     // get task list
-    let taskList = getAllTaskObjects("task-list");
+    let taskList = getAllTasksDataFromPage("task-list");
 
 
     console.log(`taskList: ${taskList.toString()}`);
@@ -108,9 +126,10 @@ function getDone(labelString) {
     return isDone;
 }
 
-/* targetId: string,
-    return: array with all task objects */
-function getAllTaskObjects(targetId) {
+/* Get task data of all task from pages task list.
+    Expects id of pages task list. targetId: string,
+    return: array with task objects. Objects are new and contain data from pages task list.*/
+function getAllTasksDataFromPage(targetId) {
     // get task-list by Id
     let taskList = document.getElementById(targetId);
 
@@ -133,9 +152,7 @@ function getAllTaskObjects(targetId) {
         tasks.push(taskFactory(description, isDone));
     }
 
-    //let task = {description: "first task to do", done: false};
-    // tasks.push(task);
-    // tasks.push({description: "second task to do", done: false});
+    // tasks.push({description: "task to do", done: false});
 
     return (tasks);
 }
@@ -146,19 +163,6 @@ let taskFactory = (description, done) => {
         description: description,
         done: done
     }
-}
-
-
-/* Get the element string containing the description. */
-function getDescriptionElementString(labelString) {
-    console.log(`getDescriptionElementString(): labelString ${labelString}`);
-
-    let result = /<span[\s\S]*?<\/span>/.exec(labelString);
-    let descriptionElementString = result[0];
-
-    console.log(`getDescriptionElementString(): descriptionElementString ${descriptionElementString}`);
-
-    return descriptionElementString;
 }
 
 /* Get description from single element containing the description. */
@@ -172,14 +176,14 @@ function getDescription(descriptionElementText) {
     return description;
 }
 
-function getTasksFromStore() {
-    console.log("getTasksFromStore()");
-    let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
-    return taskList;
-    console.log(`tasks from store: ${taskList}`);
-}
-
-function saveTasksToStore(tasks) {
+/* Save array to local store.
+* dataToStore: array of objects,
+* keyName: name of the key, string */
+function saveToStore(dataToStore, keyName) {
     console.log("saveTasksToStore()");
-    console.log(`tasks to store: ${taskList}`);
+
+    let dataToStoreJsonString = JSON.stringify(dataToStore);
+    localStorage.setItem(keyName, dataToStoreJsonString);
+
+    console.log(`count of tasks to store: ${dataToStore.length}`);
 }

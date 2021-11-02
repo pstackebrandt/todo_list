@@ -9,36 +9,36 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 </head>
-<body>
+<body onload="addTasksFromLocalStorageToPage()">
 <header>
     <h1>To-Do List</h1>
 </header>
 <main>
     <section id="tasks">
         <ul id="task-list">
-            <li>
-                <label>
-                    <input type="checkbox" oninput="taskChange(this)" value="checkbox">
-                    <span class="task">Walk</span>
-                    <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
-                </label>
-            </li>
+<!--            <li>-->
+<!--                <label>-->
+<!--                    <input type="checkbox" oninput="taskChange(this)" value="checkbox">-->
+<!--                    <span class="task">Walk</span>-->
+<!--                    <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>-->
+<!--                </label>-->
+<!--            </li>-->
 
-            <li>
-                <label>
-                    <input type="checkbox" oninput="taskChange(this)" value="checkbox">
-                    <span class="task">Walk</span>
-                    <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
-                </label>
-            </li>
+<!--            <li>-->
+<!--                <label>-->
+<!--                    <input type="checkbox" oninput="taskChange(this)" value="checkbox">-->
+<!--                    <span class="task">Walk</span>-->
+<!--                    <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>-->
+<!--                </label>-->
+<!--            </li>-->
 
-            <li>
-                <label>
-                    <input type="checkbox" oninput="taskChange(this)" checked value="checkbox">
-                    <span class="task done">Clean</span>
-                    <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>
-                </label>
-            </li>
+<!--            <li>-->
+<!--                <label>-->
+<!--                    <input type="checkbox" oninput="taskChange(this)" checked value="checkbox">-->
+<!--                    <span class="task done">Clean</span>-->
+<!--                    <button class="delete-btn" onclick="deleteTask(this);"><i class="fas fa-times-circle"></i></button>-->
+<!--                </label>-->
+<!--            </li>-->
         </ul>
     </section>
     <section id="new-task">
