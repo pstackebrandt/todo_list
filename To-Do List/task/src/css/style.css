@@ -22,13 +22,16 @@ button {
 }
 
 /*li input[type=checkbox] > span {*/
-/*    text-decoration: line-through;*/
+/*    font-size: 33px;*/
 /*}*/
 
-/*li input[type=checkbox] + span {*/
-/*    text-decoration: none;*/
-/*}*/
+li input[type=checkbox] + span {
+    font-weight: bold;
+    color: blue;
+}
 
-/*li input[type=checkbox]:checked + span {*/
-/*    text-decoration: line-through;*/
-/*}*/
+/* Change display of task description on checkbox checked.
+    This could be used for strike-through also. */
+li input[type=checkbox]:checked + span {
+    color: green;
+}
